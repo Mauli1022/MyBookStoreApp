@@ -17,19 +17,9 @@ export default function Home() {
     //     console.log(book.title);
     // })
     useEffect(() => {
-        setLoading(true)
 
-        // axios.get("http://localhost:4000/books")
-        //     .then((res) => {
-        //         setBooks(res.data.data)
-        //         // console.log(res.data.data);
-        //         setLoading(false)
-        //     }).catch((error) => {
-        //         console.log(error);
-        //         setLoading(false)
-        //     })
- 
         async function fetchBooks() {
+            setLoading(true)
             try {
                 const res = await fetch("http://localhost:4000/books")
                 if(!res.ok){
