@@ -4,12 +4,16 @@ import Spinner from '../Components/Spinner'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
+import { useSnackbar } from 'notistack'
+
 export default function CreateBook() {
   const [title,setTitle] = useState('')
   const [author,setAuthor] = useState('')
   const [publishYear,setPublishYear] = useState('')
   const [loading ,setLoading] = useState('')
   const navigate = useNavigate()
+
+  const {enqueueSnackbar} = useSnackbar()
 
   async function handleSaveBook(){
     const data = {
@@ -21,11 +25,13 @@ export default function CreateBook() {
     await axios.post("http://localhost:4000/books",data)
     .then(()=>{
       setLoading(false)
+      enqueueSnackbar('Book Created Successfully',{variant : 'success'})
       navigate("/")
     })
     .catch((error)=>{
       setLoading(false)
-      alert('An Error hanppened. Please Check Console')
+      // alert('An Error hanppened. Please Check Console')
+      enqueueSnackbar('Error',{variant : 'error'})
       console.log(`Error ${error}`);
     })
   }

@@ -4,12 +4,16 @@ import Spinner from '../Components/Spinner'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
+import { useSnackbar } from 'notistack'
+
 export default function EditBook() {
   const [title,setTitle] = useState('')
   const [author,setAuthor] = useState('')
   const [publishYear,setPublishYear] = useState('')
   const [loading ,setLoading] = useState('')
   const navigate = useNavigate()
+
+  const {enqueueSnackbar} = useSnackbar()
 
   const { id } = useParams()
   console.log(id);
@@ -41,11 +45,13 @@ export default function EditBook() {
     await axios.put(`http://localhost:4000/books/${id}`,data)
     .then(()=>{
       setLoading(false)
+      enqueueSnackbar("Book Edited Successfully",{variant : "success"})
       navigate("/")
     })
     .catch((error)=>{
       setLoading(false)
-      alert('An Error hanppened. Please Check Console')
+      // alert('An Error hanppened. Please Check Console')
+      enqueueSnackbar("Error",{variant:'error'})
       console.log(`Error ${error}`);
     })
   }
